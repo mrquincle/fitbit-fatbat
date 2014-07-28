@@ -41,9 +41,9 @@ The good thing is that the data is now encrypted. The bad thing is that FitBit d
 
 The FitBit name is property of that company. 
 
-Author: Anne van Rossum
-License: LGPLv3, get the License text yourself, please
-Copyrights: Me
-Date: July, 2014
+* Author: Anne van Rossum
+* License: LGPLv3, get the License text yourself, please
+* Copyrights: Me
+* Date: July, 2014
 
 Please, fork and submit issues.
