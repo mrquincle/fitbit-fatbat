@@ -6,7 +6,7 @@ My background is robotics, embedded programming, wireless sensor networks. At th
 
 ## Resources
 
-* [openyou](https://github.com/openyou/libfitbit) has the code to transfer data from the old versions of the FitBit, which was ANT based, the Ultra. All the current trackers, the One, the Zip, the Flex, and the Force use BLE and are encrypted (partly).
+* [Kyle Machulis (openyou)](https://github.com/openyou/libfitbit) has the code to transfer data from the old versions of the FitBit, which was ANT based, the Ultra. All the current trackers, the One, the Zip, the Flex, and the Force use BLE and are encrypted (partly).
 * [Benoît Allard](https://bitbucket.org/benallard/galileo) uses the USB log files of the dongle given with the FitBit on a Windows machine to understand some information. He uses the sources from [sansneural](https://docs.google.com/file/d/0BwJmJQV9_KRcSE0ySGxkbG1PbVE/edit) for example to know enough to be able to send the `MEGA_DUMP` packet to the FitBit server. 
 * [Chris Wade](https://github.com/cmwdotme/fitbitfun) tells he can pair, send commands and receive data, but if this is only [see code](https://github.com/cmwdotme/fitbitfun/blob/master/FitbitTestApp/FitbitDevice.m) triggering a micro-dump, an authentication request, then this is quite useless.
 
