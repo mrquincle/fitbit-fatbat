@@ -33,6 +33,18 @@ The `MICRO_DUMP` has a different opcode:
 
 Last 4 bytes seem to denote the size (big-endian).
 
+During a connecting there are packets sent at regular intervals (every minute so it seems by default). This packet is built up like this:
+
+    02 0C 20 17 00 13 00 04 00 | 1B 11 00
+
+The `02` here means that it is an ACL data packet type, part of Bluetooth HCI. The ACL packet comes with a connection handle `0C`. The following two bytes `17 00` stands for the total data length, 23 in decimal notation. The bytes `13 00` indicates the length of the L2CAP part of the packet. And `04 00` indicates the attribute protocol. The byte `01` is a "handle value notification" opcode, and `11 00` for the handle itself. After this header follows the data itself:
+
+    02 0C 20 17 00 13 00 04 00 | 1B 11 00 || F0 F2 D7 53 | 21 01 00 00 | 7C 67 03 00 | 4B 06 00 00
+
+The data `F0 F2 D7 53` is in big-endian notation 0x53D7F2F0 = 1406661360 and is a timestamp. The next four bytes `0x00000121` stand for 289 steps, the next four `0x0003677C` stands for 223100 as a distance (0.2231 km). The next byte `0x4B` is a counter and probably this is true for the last four bytes as a whole. So, this was easy. :-) Note, that to get this type of data you first are required to go through an authentication procedure, so you can't just run `hcitool -le*` and expect everything to be done.
+
+
+
 ## Encryption
 
 The good thing is that the data is now encrypted. The bad thing is that FitBit did not send everybody the encryption key to get to their own data. For example, it is not possible to see the number of steps you take of your own BLE device that your proudly build using a nRF51822 chip from Nordic. Pity!
