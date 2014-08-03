@@ -8,18 +8,20 @@ My background is robotics, embedded programming, wireless sensor networks. At th
 
 * [Kyle Machulis (openyou)](https://github.com/openyou/libfitbit) has the code to transfer data from the old versions of the FitBit, which was ANT based, the Ultra. All the current trackers, the One, the Zip, the Flex, and the Force use BLE and are encrypted (partly).
 * [Benoît Allard](https://bitbucket.org/benallard/galileo) uses the USB log files of the dongle given with the FitBit on a Windows machine to understand some information. He uses the sources from [sansneural](https://docs.google.com/file/d/0BwJmJQV9_KRcSE0ySGxkbG1PbVE/edit) for example to know enough to be able to send the `MEGA_DUMP` packet to the FitBit server. 
-* [Chris Wade](https://github.com/cmwdotme/fitbitfun) tells he can pair, send commands and receive data, but if this is only [see code](https://github.com/cmwdotme/fitbitfun/blob/master/FitbitTestApp/FitbitDevice.m) triggering a micro-dump, an authentication request, then this is quite useless.
+* [Chris Wade](https://github.com/cmwdotme/fitbitfun) tells he can pair, send commands and receive data, but if this is only ([see code](https://github.com/cmwdotme/fitbitfun/blob/master/FitbitTestApp/FitbitDevice.m)) triggering a micro-dump, an authentication request, then this is quite useless.
 
 ## Encoding
 
 The data is encoded with different opcodes as also described by [Benoît Allard](https://bitbucket.org/benallard/galileo/wiki/Communicationprotocol). The data packets of 20 bytes are SLIP encoded as also explained by him. All control packets start with `0xC0`, so if you have a data packet that starts with `0xC0` it is mapped to a two-byte code `0xDB 0xDC`. And this of course also means that `0xDB` needs to be remapped, namely to `0xDB 0xDD`.
+
+### Mega dump
 
 The `MEGA_DUMP` packet is of the form (see [Google doc](https://docs.google.com/file/d/0BwJmJQV9_KRcSE0ySGxkbG1PbVE/edit)):
 
     2802 0000 0100 1502 0000 68FD 9E2C 0F07
     ...
 
-The dumps I get I am not placing online yet. I don't trust the encryption, so I don't want you to see that I am obese. :-D However, the header is similar:
+The header of the dumped data I get is similar to that document.
 
     2802 0000 0100 6B02 0000 1522 242F 1507
     ...
@@ -27,7 +29,11 @@ The dumps I get I am not placing online yet. I don't trust the encryption, so I 
     2802 0000 0100 7002 0000 1522 242F 1507
     ...
 
-Here `1522 242F 1507` is my device id. The value `6B02` and `7002` is a counter expressing the total number of bytes communication back and forth between my laptop and the Fitbit.
+### I am challenging you!
+
+Here `1522 242F 1507` is my device id. The value `6B02` and `7002` is a counter expressing the total number of bytes communication back and forth between my laptop and the Fitbit. You can find a larger dump at [pastebin](http://pastebin.com/9STG0yus). If you can use it to make me look obese on the public part of the Fitbit website, or if you can decode it, I will give you some nice beers! :-)
+
+### Micro dump
 
 The `MICRO_DUMP` has a different opcode:
 
@@ -44,8 +50,6 @@ The `02` here means that it is an ACL data packet type, part of Bluetooth HCI. T
     02 0C 20 17 00 13 00 04 00 | 1B 11 00 || F0 F2 D7 53 | 21 01 00 00 | 7C 67 03 00 | 4B 06 00 00
 
 The data `F0 F2 D7 53` is in big-endian notation 0x53D7F2F0 = 1406661360 and is a timestamp. The next four bytes `0x00000121` stand for 289 steps, the next four `0x0003677C` stands for 223100 as a distance (0.2231 km). The next byte `0x4B` is a counter and probably this is true for the last four bytes as a whole. So, this was easy. :-) Note, that to get this type of data you first are required to go through an authentication procedure, so you can't just run `hcitool -le*` and expect everything to be done.
-
-
 
 ## Encryption
 
