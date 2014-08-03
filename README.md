@@ -27,6 +27,8 @@ The dumps I get I am not placing online yet. I don't trust the encryption, so I 
     2802 0000 0100 7002 0000 1522 242F 1507
     ...
 
+Here `1522 242F 1507` is my device id. The value `6B02` and `7002` is a counter expressing the total number of bytes communication back and forth between my laptop and the Fitbit.
+
 The `MICRO_DUMP` has a different opcode:
 
     3002 0000 0100 5302 0000 1522 242F 1507
@@ -48,6 +50,10 @@ The data `F0 F2 D7 53` is in big-endian notation 0x53D7F2F0 = 1406661360 and is 
 ## Encryption
 
 The good thing is that the data is now encrypted. The bad thing is that FitBit did not send everybody the encryption key to get to their own data. For example, it is not possible to see the number of steps you take of your own BLE device that your proudly build using a nRF51822 chip from Nordic. Pity!
+
+## NFC
+
+The NFC chip in the Fitbit Flex, is from NXP Semiconductors. The IC is type NTAG203(F) and is a Type 2 Tag. It has a text record #1 which is the device id, but it in a different order than the `28 02` messages, the text is `07 15 22 24 2F 15` instead of `15 22 24 2F 15 07`. It must be tough for them to maintain all those inconsistencies! There is also an [Android Application record](https://developer.android.com/guide/topics/connectivity/nfc/nfc.html), this opens up the Fitbit Mobile app when in proximity to the tag (which for me only worked after installing the FitTap app as well. Apart from the ID the NFC chip does not contain much interesting information.
 
 ## Copyrights
 
