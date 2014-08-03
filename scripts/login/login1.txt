@@ -1,0 +1,6 @@
+/dev/input/event2: 0003 0039 00006dfa
+/dev/input/event2: 0003 0035 0000032e
+/dev/input/event2: 0003 0036 00000446
+/dev/input/event2: 0000 0000 00000000
+/dev/input/event2: 0003 0039 ffffffff
+/dev/input/event2: 0000 0000 00000000
